@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}<% project_name|title %> dashboard{% endblock %}
+
+{% block body_class %}home{% endblock %}
+
+{% block body_base %}
+    <div class="ui grid">
+        <div class="row">
+            <div class="column padding-reset">
+                <div class="ui huge message page grid">
+                    <h1 class="ui huge header">{% blocktrans %}Welcome to<br><% project_name|title %> dashboard{% endblocktrans %}</h1>
+                    <p>
+                      {% blocktrans %}
+                      In addition to what is provided by the "zero" project, this project
+                      provides thorough integration with django-user-accounts, adding
+                      comprehensive account management functionality. It is a foundation
+                      suitable for most sites that have user accounts.
+                      {% endblocktrans %}
+                    </p>
+                    {% if not request.user.is_authenticated %}
+                      {% url "account_login" as login_url %}
+                      {% url "account_signup" as signup_url %}
+                      <p>{% blocktrans %}You can <a href="{{ login_url }}" class="ui button">Log In</a> or <a href="{{ signup_url }}" class="ui blue button">Sign Up</a> to try out the site.{% endblocktrans %}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui hidden divider"></div>
+    <div class="ui page grid">
+        <div class="row">
+            <div class="column">
+                <h2>{% blocktrans %}What is Pinax?{% endblocktrans %}</h2>
+                <p class="lead">
+                    {% blocktrans %}
+                    <b>Pinax</b> is an open-source platform based on Django and
+                    intended to provide a starting point for websites. It takes
+                    care of the things that many sites have in common, so you can
+                    focus on what makes your site different.
+                    {% endblocktrans %}
+                </p>
+            </div>
+        </div>
+        <div class="three column row">
+            <div class="column">
+                <i class="fa fa-cubes fa-3x"></i><br>
+                {% blocktrans %}
+                <b>Starter projects</b> provide project layout,
+                scaffolding, already integrated components and
+                ready-to-go code.
+                {% endblocktrans %}
+            </div>
+            <div class="column">
+                <i class="fa fa-puzzle-piece fa-3x"></i><br>
+                {% blocktrans %}
+                <b>Reusable apps</b> provide common
+                infrastructure, back-end functionality,
+                and user-facing components.
+                {% endblocktrans %}
+            </div>
+            <div class="column">
+                <i class="fa fa-tint fa-3x"></i><br>
+                {% blocktrans %}
+                <b>Themes</b> provide default templates and
+                stylesheets for quick prototyping and easy customization.
+                {% endblocktrans %}
+            </div>
+        </div>
+    </div>
+    <div class="ui page grid">
+        <div class="row">
+            <p class="column">
+                {% blocktrans %}
+                See <a href="http://pinaxproject.com/">pinaxproject.com</a>
+                for more information.
+                {% endblocktrans %}
+            </p>
+        </div>
+    </div>
+{% endblock %}

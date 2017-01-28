@@ -1,0 +1,122 @@
+{% load account_tags %}
+{% load i18n %}
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+
+<head>
+  <meta charset="utf-8" />
+  <title>{% block head_title_base %}{% if SITE_NAME %}{{ SITE_NAME }} | {% endif %}{% block head_title %}{% endblock %}{% endblock %}</title>
+
+  <link rel="stylesheet" type="text/css" href="{% static "semantic/semantic.min.css" %}">
+
+  <script src="{% static "<% project_name %>/js/lib/jquery-3.1.1.min.js" %}"></script>
+
+  {% block viewport %}
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% endblock %}
+
+  {% block styles %}
+    <style>
+      .body-base-wrapper {
+        margin-top: 70px;
+      }
+    </style>
+  {% endblock %}
+
+  {% block html5shim %}
+      <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+      <!--[if lt IE 9]>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <![endif]-->
+  {% endblock %}
+
+  {% block extra_head_base %}
+      {% block extra_head %}{% endblock %}
+  {% endblock %}
+</head>
+
+<body class="{% block body_class %}{% endblock %}" id="{% block body_id %}{% endblock %}" {% block body_extra_attributes %}{% endblock %}>
+  <div class="{% block wrapper_class %}{% endblock %}">
+
+    {% block topbar_base %}
+      <header>
+        <nav class="ui menu fixed navbar page grid">
+          <a href="{% url "dashboard" %}" class="header item">
+            <img class="logo" src="{% static "<% project_name %>/images/logo-small.png" %}">
+            {{ SITE_NAME }}
+          </a>
+          <div class="right menu">
+            {% block account_bar %}
+              {% if request.user.is_authenticated %}
+                <div class="item">
+                  <i class="fa fa-user"></i> {% user_display request.user %}
+                </div>
+                <div class="item">
+                  <a href="{% url 'account_settings' %}"><i class="fa fa-cog"></i> {% trans "Settings" %}</a>
+                </div>
+                <div class="item">
+                  <a id="account_logout" href="{% url 'account_logout' %}"><i class="fa fa-power-off"></i> {% trans "Log out" %}</a>
+                </div>
+              {% else %}
+                <div class="item">
+                  <a href="{% url 'account_login' %}">{% trans "Log in" %}</a>
+                </div>
+                {% if ACCOUNT_OPEN_SIGNUP %}
+                  <div class="item">
+                    <a href="{% url 'account_signup' %}">{% trans "Sign up" %}</a>
+                  </div>
+                {% endif %}
+              {% endif %}
+
+              <form id="accountLogOutForm" style="display: none;" action="{% url 'account_logout' %}" method="POST">
+                {% csrf_token %}
+              </form>
+
+            {% endblock %}
+          </div>
+        </nav>
+        <div id="messages">
+          {% for message in messages %}
+              <div class="alert fade in {# get_message_tags message #}">
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  {{ message }}
+              </div>
+          {% endfor %}
+        </div>
+      </header>
+    {% endblock %}
+
+    <div class="body-base-wrapper ui container">
+      {% block body_base %}
+        <div id="content_body">
+          {% block body %}
+          {% endblock %}
+        </div>
+      {% endblock %}
+    </div>
+
+    {% block footer_base %}
+      <div class="ui divider"></div>
+      <footer class="ui page grid">
+        <div class="row">
+          <div class="column">
+            {% block footer %}
+              {% trans "&copy; 2017 <% project_name %>" %}
+            {% endblock %}
+          </div>
+        </div>
+      </footer>
+    {% endblock %}
+  </div>
+
+  <script src="{% static "semantic/semantic.min.js" %}"></script>
+
+  {% block scripts %}{% endblock %}
+
+  {% block extra_body_base %}
+    {% block extra_body %}{% endblock %}
+  {% endblock %}
+</body>
+</html>

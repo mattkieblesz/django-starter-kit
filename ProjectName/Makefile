@@ -116,7 +116,7 @@ watch-assets:
 
 clean:
 	@echo "--> Cleaning __pycache__ folders"
-	find . -type d -name "__pycache__" -delete
+	find . -type d -name "__pycache__" -exec rm -r "{}" \;
 	@echo "--> Cleaning python build artifacts"
 	rm -rf build/ dist/
 	@echo "--> Cleaning built static files"

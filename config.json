@@ -1,4 +1,7 @@
 {
     "project_name": "my_project",
+    "first_name": "Firstname",
+    "email_domain": "my_project.com",
+    "last_name": "Lastname",
     "github_username": "mattkieblesz"
 }
