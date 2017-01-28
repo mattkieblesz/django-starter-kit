@@ -1,0 +1,63 @@
+from <% project_name %>.conf.server import *
+
+import os.path
+
+CONF_ROOT = os.path.dirname(__file__)
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': '<% project_name %>',
+        'USER': '<% project_name %>',
+        'PASSWORD': '<% project_name %>',
+        'HOST': 'localhost',
+        'PORT': '',
+        'AUTOCOMMIT': True,
+        'ATOMIC_REQUESTS': False,
+    }
+}
+
+###########
+# General #
+###########
+
+DEBUG = %(debug_flag)s
+SECRET_KEY = '%(secret_key)s'
+
+#########
+# Cache #
+#########
+
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+#         'LOCATION': ['127.0.0.1:11211'],
+#     }
+# }
+
+##############
+# Web Server #
+##############
+
+# <% project_name|upper %>_WEB_HOST = '0.0.0.0'
+# <% project_name|upper %>_WEB_PORT = 80
+# <% project_name|upper %>_WEB_OPTIONS = {
+#     # 'workers': 3,  # the number of web workers
+#     # 'protocol': 'uwsgi',  # Enable uwsgi protocol instead of http
+# }
+
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+
+#########
+# Email #
+#########
+
+EMAIL_BACKEND = '%(mail_backend)s'
+
+#########
+# Sites #
+#########
+
+SITE_DOMAIN = '%(site_domain)s'
