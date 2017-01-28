@@ -1,0 +1,6 @@
+# include setup.py README.md MANIFEST.in
+# recursive-include src/<% project_name %>/templates *
+# recursive-include src/<% project_name %>/locale *
+recursive-include src/<% project_name %>/data *
+# recursive-include src/<% project_name %>/static/<% project_name %> *
+global-exclude *~

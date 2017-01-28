@@ -1,0 +1,27 @@
+db.sqlite3
+tasks
+
+.cache
+.coverage
+.eslintrc.json
+.vscode
+.venv
+
+/src/<% project_name %>.egg-info
+/htmlcov/
+/cover/
+/build/
+/dist/
+/env/
+/tmp/
+/static/
+/semantic/
+/node_modules/
+
+/src/<% project_name %>/static/semantic/*
+!/src/<% project_name %>/static/semantic/README.md
+!/src/<% project_name %>/static/semantic/src
+/src/<% project_name %>/static/semantic/src/*
+!/src/<% project_name %>/static/semantic/src/site/
+
+**/__pycache__

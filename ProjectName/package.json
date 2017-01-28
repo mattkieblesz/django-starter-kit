@@ -1,0 +1,25 @@
+{
+  "name": "<% project_name %>",
+  "version": "0.0.1",
+  "description": "None",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/<% github_username %>/<% project_name %>.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/<% github_username %>/<% project_name %>/issues"
+  },
+  "homepage": "https://github.com/<% github_username %>/<% project_name %>#readme",
+  "dependencies": {
+    "semantic-ui": "^2.2.7"
+  }
+}
