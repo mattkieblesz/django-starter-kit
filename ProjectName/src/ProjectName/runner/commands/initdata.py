@@ -27,7 +27,7 @@ def initdata():
     site.save()
 
     # initial users
-    User.objects.create_user('root', settings.SERVER_EMAIL, first_name='<% project_name|title %>')
+    User.objects.create_user('root', settings.SERVER_EMAIL, first_name='<% project_title %>')
     click.echo('\nCreate superuser:')
     # populate for testing initially
     call_command(

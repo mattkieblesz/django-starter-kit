@@ -12,7 +12,7 @@ class CaseInsensitiveChoice(Choice):
 
 
 def configuration(f):
-    "Load and configure <% project_name|title %>."
+    "Load and configure <% project_title %>."
     import click
     from functools import update_wrapper
 

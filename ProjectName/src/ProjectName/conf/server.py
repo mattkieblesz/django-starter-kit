@@ -65,7 +65,7 @@ MIDDLEWARE = [
 #########
 
 SITE_ID = int(os.environ.get('SITE_ID', 1))
-SITE_NAME = '<% project_name|title %>'
+SITE_NAME = '<% project_title %>'
 SITE_DOMAIN = '<% project_name %>.com'
 
 ########################
@@ -171,7 +171,7 @@ EMAIL_PORT = 25
 EMAIL_HOST_USER = 'root'
 EMAIL_HOST_PASSWORD = 'pass'
 EMAIL_USE_TLS = False
-EMAIL_SUBJECT_PREFIX = '[<% project_name|title %>] '
+EMAIL_SUBJECT_PREFIX = '[<% project_title %>] '
 
 EMAIL_BACKEND_ALIASES = {
     'smtp': 'django.core.mail.backends.smtp.EmailBackend',
