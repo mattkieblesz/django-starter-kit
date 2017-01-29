@@ -31,6 +31,8 @@ setup: setup-system setup-db
 #############
 
 setup-git:
+	@echo "--> Setting up git repository"
+	git init
 	@echo "--> Installing git hooks"
 	git config branch.autosetuprebase always
 	cd .git/hooks && ln -sf ../../config/hooks/* ./

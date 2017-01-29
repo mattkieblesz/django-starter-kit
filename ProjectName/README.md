@@ -4,6 +4,6 @@
 - setup and activate virtual environment by running `virtualenv -p python3.6 .venv && source .venv/bin/activate`
 - run `make develop` to install project as a program inside virtual environment
 - run `<% project_name %> django runserver` to run django development server
-- navigate in your browser to `http://localhost:8000` and browse your site
+- navigate in your browser to `http://localhost:8000` and browse your site (use <% project_name|lower %> as username and test as password)
 
 To run uwsgi server run `<% project_name %> web run` and go to `http://localhost` in your browser to browse the site.
