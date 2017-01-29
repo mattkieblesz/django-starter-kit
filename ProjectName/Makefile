@@ -32,7 +32,7 @@ setup: setup-system setup-db
 
 setup-git:
 	@echo "--> Setting up git repository"
-	git init
+	git init && git add . && git commit -am "Init"
 	@echo "--> Installing git hooks"
 	git config branch.autosetuprebase always
 	cd .git/hooks && ln -sf ../../config/hooks/* ./
@@ -52,7 +52,11 @@ install-npm:
 	@echo "--> Installing Node dependencies"
 	npm install
 
-develop: setup-git install-python install-python-tests install-npm build-semantic reset-db
+setup-project:
+	@echo "--> Setting up configuration for this environment"
+	<% project_name %> init --dev
+
+develop: setup-git install-python install-python-tests install-npm setup-project build-semantic reset-db
 
 ###########
 # Testing #
