@@ -141,3 +141,25 @@ reset-db:
 	createdb -E utf-8 <% project_name %>
 	@echo "--> Applying migrations"
 	<% project_name %> upgrade
+
+################
+# Provisioning #
+################
+
+setup-provisioning:
+	@echo "--> Setting up Ansible"
+	./devops/ansible/extensions/setup/setup.sh
+	@echo "--> Setting up Docker"
+	./devops/docker/extensions/setup/setup.sh
+	@echo "--> Setting up Terraform"
+	./devops/terraform/extensions/setup/setup.sh
+	@echo "--> Setting up Packer"
+	./devops/packer/extensions/setup/setup.sh
+	@echo "--> Setting up Vagrant"
+	./devops/vagrant/extensions/setup/setup.sh
+	@echo "--> Updating Ansible playbooks"
+	./devops/ansible/extensions/setup/role_update.sh
+
+provision:
+	@echo "--> Provisioning to $(env) environment"
+	cd devops && python provision.py $(env) $(revision) $(version)
