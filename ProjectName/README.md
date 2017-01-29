@@ -31,19 +31,19 @@ excluded from git repo).
 Because AWS resources are expensive in comparison to other providers we suggest better option would be to change them
 for it's cheaper substitutes.
 
-### Development environment
+### Development
 
 Run `make provision development` to provision development environment.
 
-### Staging environment
+### Staging
 
 Run `make provision staging` to provision development environment.
 
-### Staging environment
+### Staging
 
 Run `make provision production` to provision development environment.
 
-### Utils environment
+### Utils
 
 Additionally there is posibility to use default GOCD CI pipeline. You can deploy this environment locally, similary to
 setting up local environment by running two options:
