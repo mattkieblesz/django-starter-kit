@@ -134,8 +134,10 @@ We repeat play in 3 different places: environment_vars, group_vars, plays.
     - terraform.tf
 - ansible.cfg
 - vpass (ansible vault pass exluded from git)
+- secrets
 - Makefile:
   - setup devops toolset on current machine
+  - export secrets to current environmnet
   - creating resources for different environments (terraform)
   - removing resources for different environments (terraform)
   - creating vagrant/docker/vagrantdocker/aws/etc. images for all environments for all playbooks (packer)
