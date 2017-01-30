@@ -1,0 +1,142 @@
+# Devops setup
+
+We repeat play in 3 different places: environment_vars, group_vars, plays.
+
+- .gitignore (exclude all secrets/images/resource state)
+- group_vars (for default role setup):
+  - all
+  - play1:
+    - file.yml
+    - file2.yml
+  - play2:
+    - file.yml
+    - file2.yml
+  - testplay:
+    - file.yml
+    - file2.yml
+  - performancetestplay:
+    - file.yml
+    - file2.yml
+  - jenkinsplay:
+    - file.yml
+    - file2.yml
+  - gocdplay:
+    - file.yml
+    - file2.yml
+- plays:
+  - play1
+  - play2
+  - performancetestplay
+  - jenkinsplay
+  - gocdplay
+  - testplay
+- roles:
+  - internal:
+    - common:
+      - rolestuff
+    - internalrole1:
+      - rolestuff
+  - external (downloaded and excluded from repo):
+    - externalrole1:
+      - rolestuff
+    - externalrole2:
+      - rolestuff
+- resources (environment specific terraform instructions with environment specific ansible vars):
+  - dev
+    - vars
+      - all:
+        - file.yml
+        - file1.yml
+      - play1:
+        - file.yml
+        - file2.yml
+        - vaulted-secret.yml
+      - play2:
+        - file.yml
+        - file2.yml
+        - vaulted-secret.yml
+    - inventory.ini (ansible inventory file)
+    - terraform.tf (terraform infra instructions)
+  - stg
+    - vars
+      - all:
+        - file.yml
+        - file1.yml
+      - play1:
+        - file.yml
+        - file2.yml
+        - vaulted-secret.yml
+      - play2:
+        - file.yml
+        - file2.yml
+        - vaulted-secret.yml
+    - inventory.ini
+    - terraform.tf
+  - prd
+    - vars
+      - all:
+        - file.yml
+        - file1.yml
+      - play1:
+        - file.yml
+        - file2.yml
+        - vaulted-secret.yml
+      - play2:
+        - file.yml
+        - file2.yml
+        - vaulted-secret.yml
+    - inventory.ini
+    - terraform.tf
+  - mgt
+    - vars
+      - all:
+        - file.yml
+        - file1.yml
+      - gocdplay:
+        - file.yml
+        - file2.yml
+        - vaulted-secret.yml
+      - jenkinsplay:
+        - file.yml
+        - file2.yml
+        - vaulted-secret.yml
+    - inventory.ini
+    - terraform.tf
+  - tst
+    - vars
+      - all:
+        - file.yml
+        - file1.yml
+      - testplay:
+        - file.yml
+        - file2.yml
+        - vaulted-secret.yml
+    - inventory.ini
+    - terraform.tf
+  - prf
+    - vars
+      - all:
+        - file.yml
+        - file1.yml
+      - play1:
+        - file.yml
+        - file2.yml
+        - vaulted-secret.yml
+      - play2:
+        - file.yml
+        - file2.yml
+        - vaulted-secret.yml
+      - performancetestplay:
+        - file.yml
+        - file2.yml
+        - vaulted-secret.yml
+    - inventory.ini
+    - terraform.tf
+- ansible.cfg
+- vpass (ansible vault pass exluded from git)
+- Makefile:
+  - setup devops toolset on current machine
+  - creating resources for different environments (terraform)
+  - removing resources for different environments (terraform)
+  - creating vagrant/docker/vagrantdocker/aws/etc. images for all environments for all playbooks (packer)
+  - provisioning using ansible directly for all environment types for all environments with use of tags (ability to just deploy/run job/do database migration/etc.) (configuration management)
