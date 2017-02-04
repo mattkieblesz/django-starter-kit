@@ -1,144 +1,115 @@
-# Devops setup
+# Devops
 
-We repeat play in 3 different places: environment_vars, group_vars, plays.
+    .gitignore (exclude all secrets/images/resource state)
+    ansible.cfg                 # global ansible config
+    vpass                       # ansible-vault password file excluded from git
+    secrets                     # bash script file with secret to export for access keys excluded from git
 
-- .gitignore (exclude all secrets/images/resource state)
-- group_vars (for default role setup):
-  - all
-  - play1:
-    - file.yml
-    - file2.yml
-  - play2:
-    - file.yml
-    - file2.yml
-  - testplay:
-    - file.yml
-    - file2.yml
-  - performancetestplay:
-    - file.yml
-    - file2.yml
-  - jenkinsplay:
-    - file.yml
-    - file2.yml
-  - gocdplay:
-    - file.yml
-    - file2.yml
-- plays:
-  - play1
-  - play2
-  - performancetestplay
-  - jenkinsplay
-  - gocdplay
-  - testplay
-- roles:
-  - internal:
-    - common:
-      - rolestuff
-    - internalrole1:
-      - rolestuff
-  - external (downloaded and excluded from repo):
-    - externalrole1:
-      - rolestuff
-    - externalrole2:
-      - rolestuff
-- resources (environment specific terraform instructions with environment specific ansible vars):
-  - dev
-    - vars
-      - all:
-        - file.yml
-        - file1.yml
-      - play1:
-        - file.yml
-        - file2.yml
-        - vaulted-secret.yml
-      - play2:
-        - file.yml
-        - file2.yml
-        - vaulted-secret.yml
-    - inventory.ini (ansible inventory file)
-    - terraform.tf (terraform infra instructions)
-  - stg
-    - vars
-      - all:
-        - file.yml
-        - file1.yml
-      - play1:
-        - file.yml
-        - file2.yml
-        - vaulted-secret.yml
-      - play2:
-        - file.yml
-        - file2.yml
-        - vaulted-secret.yml
-    - inventory.ini
-    - terraform.tf
-  - prd
-    - vars
-      - all:
-        - file.yml
-        - file1.yml
-      - play1:
-        - file.yml
-        - file2.yml
-        - vaulted-secret.yml
-      - play2:
-        - file.yml
-        - file2.yml
-        - vaulted-secret.yml
-    - inventory.ini
-    - terraform.tf
-  - mgt
-    - vars
-      - all:
-        - file.yml
-        - file1.yml
-      - gocdplay:
-        - file.yml
-        - file2.yml
-        - vaulted-secret.yml
-      - jenkinsplay:
-        - file.yml
-        - file2.yml
-        - vaulted-secret.yml
-    - inventory.ini
-    - terraform.tf
-  - tst
-    - vars
-      - all:
-        - file.yml
-        - file1.yml
-      - testplay:
-        - file.yml
-        - file2.yml
-        - vaulted-secret.yml
-    - inventory.ini
-    - terraform.tf
-  - prf
-    - vars
-      - all:
-        - file.yml
-        - file1.yml
-      - play1:
-        - file.yml
-        - file2.yml
-        - vaulted-secret.yml
-      - play2:
-        - file.yml
-        - file2.yml
-        - vaulted-secret.yml
-      - performancetestplay:
-        - file.yml
-        - file2.yml
-        - vaulted-secret.yml
-    - inventory.ini
-    - terraform.tf
-- ansible.cfg
-- vpass (ansible vault pass exluded from git)
-- secrets
-- Makefile:
-  - setup devops toolset on current machine
-  - export secrets to current environmnet
-  - creating resources for different environments (terraform)
-  - removing resources for different environments (terraform)
-  - creating vagrant/docker/vagrantdocker/aws/etc. images for all environments for all playbooks (packer)
-  - provisioning using ansible directly for all environment types for all environments with use of tags (ability to just deploy/run job/do database migration/etc.) (configuration management)
+    files/                      # Files to share for all envs
+      ssh_keys/                 # list of ssh keys
+        id_username.pub
+
+    group_vars/                 # for default role setup
+      all/                      # variables under this directory belongs all the groups
+        role1.yml               # role1 variable file for all groups
+        role2.yml               # role2 variable file for all groups
+      play1/                    # here we assign variables to play1 groups
+        role1.yml               # Each file will correspond to a role i.e. role1.yml
+        role2.yml               # --||--
+      play2/                    # here we assign variables to play2 groups
+        role3.yml               # Each file will correspond to a role i.e. role3.yml
+        role4.yml               # --||--
+      testplay/                 # here we assign variables to testplay groups
+        role5.yml               # Each file will correspond to a role i.e. role5.yml
+        role6.yml               # --||--
+      performancetestplay/      # here we assign variables to performancetestplay groups
+        role7.yml               # Each file will correspond to a role i.e. role7.yml
+        role8.yml               # --||--
+      jenkinsplay/              # here we assign variables to jenkinsplay groups
+        role9.yml               # Each file will correspond to a role i.e. role9.yml
+        role10.yml              # --||--
+      gocdplay/                 # here we assign variables to gocdplay groups
+        role11.yml              # Each file will correspond to a role i.e. role11.yml
+        role12.yml              # --||--
+
+    plays/
+      play1.yml                 # playbooks should have just services roles dependencies
+      play2.yml                 # --||--
+      performancetestplay.yml   # --||--
+      jenkinsplay.yml           # --||--
+      gocdplay.yml              # --||--
+      testplay.yml              # --||--
+
+    roles/
+      services/                 # All the roles that are specific to a service
+        role1/
+          rolestuff
+        role2/
+          rolestuff
+        role3/
+          rolestuff
+        role4/
+          rolestuff
+        role5/
+          rolestuff
+        role6/
+          rolestuff
+        role7/
+          rolestuff
+        role8/
+          rolestuff
+        role9/
+          rolestuff
+        role10/
+          rolestuff
+      js_roles/                 # All the roles that common to different roles
+        commonrole1/
+          rolestuff
+      vendor/                   # All the roles that are in git or ansible galaxy (excluded from git)
+        role11/
+          rolestuff
+        role12/
+          rolestuff
+      requirements.yml          # All the information about the roles
+
+    envs/                       # Main entry point to infrastructure setup
+      dev/
+        vars/                   # Folder with vars specific to environment (simple flat file structure)
+          all.yml
+          play1.yml
+          play2.yml
+          secret-plain.yml      # Secret file template (not used)
+          secrets.yml           # One file with secrets for environment
+        inventory.ini           # Dynamic inventory file which includes location
+        terraform.tf            # Environment infra as code setup
+      stg
+        ...
+        terraform.tf            # Linked from prd environment (will be used with different vars)
+      prd
+        ...
+      mgt
+        ...
+      tst
+        ...
+      prf
+        ...
+
+    scripts/                    # utility scripts used by Makefile targets
+      roles_update.sh           # update vendor roles
+
+    templates/                  # templates used in this repo
+      Vagrant.j2                # vagrant template used for this environment
+
+    Makefile                    # Management interface which can be used by any dev from the start
+      setup                     # setup devops toolset on current machine
+      export_secrets            # export secrets to current environmnet
+      createrole                # creates new role
+      createsecret              # creates new secret file
+      <test/build/create/provision/provision-tag/destroy> loction=<local/remote/docker/vagrant>, build=<version/commit>, env=<tst/mgt/dev/stg/prd/prf/...>, play=<play1/play2/...>
+        test                    # mgt tool to run test suite
+        build                   # mgt tool to build images
+        create                  # mgt tool to create infrastructure as code
+        destroy                 # mgt tool to destroy infrastructure as code
+        provision               # mgt tool to provision to already created infrastructure
+        provision-tag           # mgt tool to provision specific task to already created infrastructure like collectstatic in remote, deploy code, migrate ...
+      custom                    # custom utility used only on local
