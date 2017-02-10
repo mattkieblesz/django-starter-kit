@@ -1,9 +1,17 @@
-# Devops
+## Installation
+
+First install requirements by calling `sudo make setup`. Then update vendor roles with `make updateroles`. To be able to use
+provisioning tools you need to export access keys to resource providers and basic configuration files setup. Run `source setup.cfg`
+and `source secrets.cfg` to export them to current environment..
+
+## Layout
 
     .gitignore (exclude all secrets/images/resource state)
     ansible.cfg                 # global ansible config
-    vpass                       # ansible-vault password file excluded from git
-    secrets                     # bash script file with secret to export for access keys excluded from git
+    secrets                     # secret variables excluded from git
+    variables                   # basic configuration variables
+    secrets-template            # secrets template
+    vpass                       # ansible vault password file
 
     files/                      # Files to share for all envs
       ssh_keys/                 # list of ssh keys
@@ -70,7 +78,7 @@
           rolestuff
         role12/
           rolestuff
-      requirements.yml          # All the information about the roles
+      requirements.yml          # All the information about external roles
 
     envs/                       # Main entry point to infrastructure setup
       dev/
@@ -95,17 +103,20 @@
         ...
 
     scripts/                    # utility scripts used by Makefile targets
-      roles_update.sh           # update vendor roles
+      setup.sh                  # setup devops script
+      update_roles.sh           # update vendor roles
+      create_role.sh            # create new common/service role
+      create_env.sh             # create new environment
 
     templates/                  # templates used in this repo
       Vagrant.j2                # vagrant template used for this environment
 
     Makefile                    # Management interface which can be used by any dev from the start
       setup                     # setup devops toolset on current machine
-      export_secrets            # export secrets to current environmnet
+      updateroles               # update ansible vendor roles
       createrole                # creates new role
       createsecret              # creates new secret file
-      <test/build/create/provision/provision-tag/destroy> loction=<local/remote/docker/vagrant>, build=<version/commit>, env=<tst/mgt/dev/stg/prd/prf/...>, play=<play1/play2/...>
+      <action> loction=<local/remote/docker/vagrant>, build=<version/commit>, env=<tst/mgt/dev/stg/prd/prf/...>, play=<play1/play2/...>
         test                    # mgt tool to run test suite
         build                   # mgt tool to build images
         create                  # mgt tool to create infrastructure as code
@@ -113,3 +124,15 @@
         provision               # mgt tool to provision to already created infrastructure
         provision-tag           # mgt tool to provision specific task to already created infrastructure like collectstatic in remote, deploy code, migrate ...
       custom                    # custom utility used only on local
+
+
+## Resource naming convention
+
+In order to simplify life we assume one resource provider account will be used. Therefore there needs to be naming
+which will include:
+- environment
+- location
+- role
+- resource number
+
+Examples: `prd-lo-web-1`, `dev-ir-db-1`, `prf-fr-db-1`, `stg-lo-celery-3`, `mgt-lo-ci-1`
