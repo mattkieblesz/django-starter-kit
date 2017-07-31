@@ -1,0 +1,53 @@
+- remove uwsgi from this project
+- use normal django commands (or django-click 3rd party if you must use click)
+    - create management/commands folder and move everything there
+- starter kit program
+    - install via setup.py
+    - django-starter-kit init (creates config in current directory for webapp from template)
+    - django-starter-kit start --config=<config-path but optional> (creates initial repo in current dir)
+- webapp program
+    - install for development via python setup.py install dev, point to manage.py
+- structure
+    - cloud/ (link to cloud repo which manages this one if exists)
+    - src/
+        - cms/
+            - cmsapp1/
+            - cmsapp2/
+        - webapp/
+            - admin/
+            - api/ (api stuff)
+                - endpoints/
+            - conf/
+                urls.py
+                base.conf.py
+                webapp.conf.py
+            - db/
+                - models/
+                    - fields/
+                    base.py
+            - migrations/
+            - models/
+            - commands/
+                cloud (group command which uses cloud commands)
+                    provision
+                    deploy
+                    migrate
+                    backup
+                createuser
+                initdata
+                runserver
+                runwebpackserver
+            - static/
+            - templates/
+                - cms/
+                - account/
+                - ...
+            - web (web stuff)
+                - forms/
+                - views/
+    Makefile
+
+
+- commands available in cloud repo
+- keep project configuration file in conf dir (and only there) without
+- use pytest
